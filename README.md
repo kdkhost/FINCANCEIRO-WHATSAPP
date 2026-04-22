@@ -54,6 +54,9 @@ vite.config.js
 - landing page publica montada para React em `resources/js/frontend/app.jsx`
 - dashboard administrativo em AdminLTE 4 em `resources/views/admin/dashboard.blade.php`
 - CRUDs Ajax iniciais de tenants, clientes e cobrancas sem refresh completo
+- CRUD Ajax de gateways por tenant
+- templates de WhatsApp e e-mail com preview em tempo real
+- logs administrativos de webhook
 - formularios com mascara, SweetAlert2, Toastify e preenchimento de endereco por ViaCEP
 - central de crons com execucao manual e historico
 - middleware de identificacao de tenant e restricao por IP
@@ -88,6 +91,8 @@ Depois de rodar `php artisan db:seed`, o sistema criara:
 - endpoint de health check
 - endpoint base para listagem de clientes por tenant
 - endpoint base para webhooks dinamicos por gateway
+- CRUD de gateways e templates no painel administrativo
+- persistencia de logs de webhook
 - agendamento interno de cron
 - estrutura inicial para filas de WhatsApp e lembretes
 - seeders de demonstracao com tenants, usuarios, clientes, gateways e faturas

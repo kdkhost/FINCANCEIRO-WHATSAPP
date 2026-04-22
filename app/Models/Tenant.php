@@ -39,4 +39,19 @@ class Tenant extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+
+    public function gatewayAccounts(): HasMany
+    {
+        return $this->hasMany(PaymentGatewayAccount::class);
+    }
+
+    public function whatsappTemplates(): HasMany
+    {
+        return $this->hasMany(WhatsappTemplate::class);
+    }
+
+    public function emailTemplates(): HasMany
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
 }

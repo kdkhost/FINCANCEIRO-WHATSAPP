@@ -69,8 +69,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <p>WhatsApp</p>
+                            <a href="{{ route('admin.gateways.index') }}" class="nav-link {{ request()->routeIs('admin.gateways.*') ? 'active' : '' }}">
+                                <p>Gateways</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.templates.index') }}" class="nav-link {{ request()->routeIs('admin.templates.*') ? 'active' : '' }}">
+                                <p>Templates</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.webhooks.logs.index') }}" class="nav-link {{ request()->routeIs('admin.webhooks.logs.*') ? 'active' : '' }}">
+                                <p>Logs de Webhook</p>
                             </a>
                         </li>
                     </ul>

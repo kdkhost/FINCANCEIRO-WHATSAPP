@@ -19,6 +19,14 @@ window.Toastify = Toastify;
 window.Swal = Swal;
 
 const dataTables = new Map();
+const previewSamples = {
+    nome: 'Joao da Silva',
+    valor: 'R$ 149,90',
+    data_vencimento: '30/04/2026',
+    empresa: 'Financeiro Pro Whats',
+    link_pagamento: 'https://pagamento.exemplo.com/fatura/123',
+    tenant: 'Tenant Demo',
+};
 
 function csrfToken() {
     return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -76,6 +84,12 @@ function initializeSummernote() {
                 height: 220,
                 lang: 'pt-BR',
                 placeholder: 'Digite o conteudo aqui...',
+                callbacks: {
+                    onChange: contents => {
+                        element.value = contents;
+                        refreshTemplatePreview(element.closest('form'));
+                    },
+                },
             });
         }
     });
@@ -97,7 +111,14 @@ function resetAjaxForm(form) {
         submitButton.textContent = submitButton.dataset.createLabel || submitButton.textContent;
     }
 
+    form.querySelectorAll('[data-summernote]').forEach(element => {
+        if ($(element).next('.note-editor').length) {
+            $(element).summernote('code', '');
+        }
+    });
+
     filterCustomerSelect(form);
+    refreshTemplatePreview(form);
 }
 
 function upsertTableRow(tableSelector, recordId, rowHtml) {
@@ -159,10 +180,21 @@ function populateForm(form, record, url, method) {
             return;
         }
 
+        if (field.type === 'checkbox') {
+            field.checked = Boolean(value);
+            return;
+        }
+
+        if (field.matches('[data-summernote]') && $(field).next('.note-editor').length) {
+            $(field).summernote('code', value ?? '');
+            return;
+        }
+
         field.value = value ?? '';
     });
 
     filterCustomerSelect(form);
+    refreshTemplatePreview(form);
 
     const submitButton = form.querySelector('[data-submit-label]');
     if (submitButton) {
@@ -292,6 +324,42 @@ function bindAjaxForms() {
             }
         });
     });
+}
+
+function replaceTemplateVariables(content) {
+    let rendered = content || '';
+
+    Object.entries(previewSamples).forEach(([key, value]) => {
+        rendered = rendered.replaceAll(`{{${key}}}`, value);
+    });
+
+    return rendered;
+}
+
+function refreshTemplatePreview(form) {
+    if (!form || !form.dataset.templatePreviewForm) {
+        return;
+    }
+
+    const previewScope = form.closest('.row') || form.parentElement || document;
+    const subjectField = form.querySelector('[data-template-preview-source="subject"]');
+    const bodyField = form.querySelector('[data-template-preview-source="body"]');
+    const subjectTarget = previewScope.querySelector('[data-template-preview-target="subject"]');
+    const bodyTarget = previewScope.querySelector('[data-template-preview-target="body"]');
+
+    if (subjectField && subjectTarget) {
+        subjectTarget.textContent = replaceTemplateVariables(subjectField.value || 'Assunto do template');
+    }
+
+    if (bodyField && bodyTarget) {
+        const content = replaceTemplateVariables(bodyField.value || '');
+
+        if (form.dataset.templatePreviewForm === 'email') {
+            bodyTarget.innerHTML = content || '<p>Preview do corpo do e-mail.</p>';
+        } else {
+            bodyTarget.innerHTML = content || 'Preview da mensagem do WhatsApp.';
+        }
+    }
 }
 
 function bindResetButtons() {
@@ -428,6 +496,17 @@ function bindViaCep() {
     });
 }
 
+function bindTemplatePreview() {
+    document.querySelectorAll('[data-template-preview-form]').forEach(form => {
+        refreshTemplatePreview(form);
+
+        form.querySelectorAll('[data-template-preview-source]').forEach(field => {
+            field.addEventListener('input', () => refreshTemplatePreview(form));
+            field.addEventListener('change', () => refreshTemplatePreview(form));
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeMasks();
     initializeDataTables();
@@ -439,4 +518,5 @@ document.addEventListener('DOMContentLoaded', () => {
     bindCronButtons();
     bindTenantCustomerFilters();
     bindViaCep();
+    bindTemplatePreview();
 });

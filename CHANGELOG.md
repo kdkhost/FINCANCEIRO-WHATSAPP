@@ -16,6 +16,20 @@ Todas as alteracoes relevantes deste projeto devem ser registradas aqui.
 - Menu do painel administrativo com navegacao operacional para os modulos centrais
 - Bootstrap do admin expandido para suportar CRUD Ajax, edicao em tela e exclusao com confirmacao
 
+## [0.5.0] - 2026-04-22
+
+### Adicionado
+
+- CRUD Ajax de gateways por tenant com configuracao de PIX, boleto, cartao e sandbox
+- gerenciamento de templates de WhatsApp e e-mail com preview em tempo real
+- logs de webhook no administrativo
+- persistencia de webhook logs e templates nos seeders demo
+
+### Alterado
+
+- endpoint de webhook ajustado para resolver tenant diretamente por slug ou dominio
+- bootstrap do admin expandido para suportar preview de templates e edicao de Summernote
+
 ## [0.3.0] - 2026-04-22
 
 ### Alterado
