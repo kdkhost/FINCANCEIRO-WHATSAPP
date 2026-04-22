@@ -2,6 +2,20 @@
 
 Todas as alteracoes relevantes deste projeto devem ser registradas aqui.
 
+## [0.4.0] - 2026-04-22
+
+### Adicionado
+
+- Login administrativo do dono do SaaS com sessao e middleware de protecao
+- CRUDs Ajax iniciais de tenants, clientes e cobrancas no painel AdminLTE 4
+- Formularios com mascara, preenchimento automatico por ViaCEP e acoes sem refresh completo
+- Rotas administrativas protegidas para login, logout, tenants, clientes e cobrancas
+
+### Alterado
+
+- Menu do painel administrativo com navegacao operacional para os modulos centrais
+- Bootstrap do admin expandido para suportar CRUD Ajax, edicao em tela e exclusao com confirmacao
+
 ## [0.3.0] - 2026-04-22
 
 ### Alterado

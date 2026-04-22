@@ -50,8 +50,12 @@ vite.config.js
 - `composer.json` para Laravel 12
 - `package.json` com AdminLTE 4, React, Tailwind 4, DataTables e Summernote
 - rotas separadas para site publico e administrativo
+- login administrativo do dono do SaaS com sessao e protecao por middleware
 - landing page publica montada para React em `resources/js/frontend/app.jsx`
 - dashboard administrativo em AdminLTE 4 em `resources/views/admin/dashboard.blade.php`
+- CRUDs Ajax iniciais de tenants, clientes e cobrancas sem refresh completo
+- formularios com mascara, SweetAlert2, Toastify e preenchimento de endereco por ViaCEP
+- central de crons com execucao manual e historico
 - middleware de identificacao de tenant e restricao por IP
 - models de tenants, usuarios, clientes, faturas, planos e gateways
 - services base para pro-rata, templates e gateways
@@ -91,12 +95,12 @@ Depois de rodar `php artisan db:seed`, o sistema criara:
 
 ## O que ainda depende de continuidade
 
-- autenticacao completa com telas finais
-- CRUDs Ajax completos no painel
+- autenticacao social, 2FA e WebAuthn
+- CRUDs Ajax dos demais modulos do sistema
 - dashboards com graficos reais
 - integracoes reais com Mercado Pago, Efi, Stripe e Evolution
 - CRM, Kanban, contratos, afiliados, SEO e analytics
-- mascaras dinamicas, ViaCEP e fluxos completos de formularios
+- backup, manutencao avancada, migrate/cache via painel e PWA gerenciavel
 
 ## Documentacao complementar
 

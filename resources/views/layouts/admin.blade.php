@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }} - Admin</title>
+    <title>{{ $pageTitle ?? config('app.name').' - Admin' }}</title>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -22,6 +22,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Ver site</a>
                     </li>
+                    @auth
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('admin.logout') }}">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link border-0">Sair</button>
+                            </form>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </nav>
@@ -46,17 +54,17 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.tenants.index') }}" class="nav-link {{ request()->routeIs('admin.tenants.*') ? 'active' : '' }}">
                                 <p>Tenants</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
                                 <p>Clientes</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.invoices.index') }}" class="nav-link {{ request()->routeIs('admin.invoices.*') ? 'active' : '' }}">
                                 <p>Cobrancas</p>
                             </a>
                         </li>
