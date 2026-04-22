@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Sora", "Segoe UI", sans-serif;
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
+  --color-brand-50: #effcfb;
+  --color-brand-100: #d0f8f3;
+  --color-brand-300: #67e8d4;
+  --color-brand-500: #14b8a6;
+  --color-brand-700: #0f766e;
+  --color-night-950: #06131a;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}

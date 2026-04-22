@@ -1,32 +1,28 @@
 # Financeiro Pro Whats
 
-SaaS multi-tenant para gestao financeira, cobrancas, contratos, automacoes de WhatsApp e operacao administrativa em Laravel 12 + React com AdminLTE 4.
+SaaS multi-tenant para gestao financeira, cobrancas, contratos, automacoes de WhatsApp e operacao administrativa em Laravel 12 com backend AdminLTE 4 e frontend React + Tailwind 4.
 
 ## Estado atual da base
 
-Esta entrega ja nao e apenas documental. O repositório agora contem a estrutura real do projeto com:
+Esta entrega ja contem uma base real de codigo com separacao clara entre:
 
-- `composer.json` preparado para Laravel 12
-- `package.json` com React, Vite, AdminLTE 4, DataTables e Summernote
-- bootstrap inicial do Laravel
-- rotas web, api e console
-- middleware de identificacao de tenant e restricao por IP
-- modelos base de tenancy, planos, clientes, faturas e gateways
-- servicos iniciais para pro-rata, templates e gateways
-- migrations iniciais
-- frontend base com Vite, React e PWA
-- documentacao tecnica complementar
+- backend administrativo em Blade + AdminLTE 4
+- frontend publico em React + Tailwind 4
+- API inicial para health check, tenant e webhooks
+- models, migrations, services e jobs centrais
+- factories e seeders de demonstracao
 
 ## Stack prevista
 
 - PHP 8.4
 - Laravel 12
 - MariaDB / MySQL
-- React + Vite
+- React + Vite + Tailwind 4
 - AdminLTE 4
 - jQuery + Ajax
-- SweetAlert2 + Toastify
+- DataTables
 - Summernote
+- SweetAlert2 + Toastify
 - FullCalendar
 - Mercado Pago, Efi Pay e Stripe
 - Evolution API para WhatsApp
@@ -49,6 +45,19 @@ package.json
 vite.config.js
 ```
 
+## O que ja foi preparado
+
+- `composer.json` para Laravel 12
+- `package.json` com AdminLTE 4, React, Tailwind 4, DataTables e Summernote
+- rotas separadas para site publico e administrativo
+- landing page publica montada para React em `resources/js/frontend/app.jsx`
+- dashboard administrativo em AdminLTE 4 em `resources/views/admin/dashboard.blade.php`
+- middleware de identificacao de tenant e restricao por IP
+- models de tenants, usuarios, clientes, faturas, planos e gateways
+- services base para pro-rata, templates e gateways
+- jobs iniciais para lembretes e WhatsApp
+- seeders com dados de demonstracao
+
 ## Fluxo de instalacao quando voce for hospedar
 
 ```bash
@@ -56,9 +65,17 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
+php artisan db:seed
 npm install
 npm run build
 ```
+
+## Credenciais demo previstas
+
+Depois de rodar `php artisan db:seed`, o sistema criara:
+
+- usuario SaaS: `admin@financeiroprowhats.test`
+- senha base de demonstracao: `password`
 
 ## O que ja esta modelado
 
@@ -69,16 +86,17 @@ npm run build
 - endpoint base para webhooks dinamicos por gateway
 - agendamento interno de cron
 - estrutura inicial para filas de WhatsApp e lembretes
+- seeders de demonstracao com tenants, usuarios, clientes, gateways e faturas
 - PWA com `manifest.webmanifest` e service worker inicial
 
-## O que ainda depende da instalacao de dependencias e continuidade de implementacao
+## O que ainda depende de continuidade
 
-- autenticação completa com telas finais
-- painel administrativo completo com AdminLTE 4 e CRUDs finais
+- autenticacao completa com telas finais
+- CRUDs Ajax completos no painel
+- dashboards com graficos reais
 - integracoes reais com Mercado Pago, Efi, Stripe e Evolution
-- CRUDs completos via Ajax
-- dashboards com graficos
-- CRM/Kanban, contratos, afiliados, SEO e analytics
+- CRM, Kanban, contratos, afiliados, SEO e analytics
+- mascaras dinamicas, ViaCEP e fluxos completos de formularios
 
 ## Documentacao complementar
 
