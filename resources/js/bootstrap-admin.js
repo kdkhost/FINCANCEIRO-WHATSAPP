@@ -55,4 +55,58 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder: 'Digite o conteudo aqui...',
         });
     });
+
+    document.querySelectorAll('[data-run-cron]').forEach(button => {
+        button.addEventListener('click', async () => {
+            const taskName = button.dataset.task;
+            const url = button.dataset.url;
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            const confirmation = await Swal.fire({
+                title: 'Executar cron manualmente?',
+                text: `Deseja rodar a tarefa "${taskName}" agora?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Executar',
+                cancelButtonText: 'Cancelar',
+            });
+
+            if (!confirmation.isConfirmed) {
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = 'Executando...';
+
+            try {
+                const response = await axios.post(url, {}, {
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        Accept: 'application/json',
+                    },
+                });
+
+                Toastify({
+                    text: response.data.message,
+                    duration: 4000,
+                    gravity: 'top',
+                    position: 'right',
+                    backgroundColor: '#0f766e',
+                }).showToast();
+
+                setTimeout(() => window.location.reload(), 900);
+            } catch (error) {
+                const message = error.response?.data?.message ?? 'Falha ao executar o cron.';
+
+                Swal.fire({
+                    title: 'Erro ao executar',
+                    text: message,
+                    icon: 'error',
+                });
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Executar agora';
+            }
+        });
+    });
 });

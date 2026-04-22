@@ -41,6 +41,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/admin/crons" class="nav-link {{ request()->routeIs('admin.crons.*') ? 'active' : '' }}">
+                                <p>Central de Crons</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <p>Tenants</p>
                             </a>
