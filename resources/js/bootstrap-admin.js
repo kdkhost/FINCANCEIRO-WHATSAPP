@@ -5,7 +5,7 @@ import 'admin-lte/dist/js/adminlte';
 import 'datatables.net';
 import 'datatables.net-bs5';
 import 'summernote/dist/summernote-bs5';
-import 'summernote/lang/summernote-pt-BR';
+import 'summernote/dist/lang/summernote-pt-BR.min.js';
 import Inputmask from 'inputmask';
 import Toastify from 'toastify-js';
 import Swal from 'sweetalert2';
