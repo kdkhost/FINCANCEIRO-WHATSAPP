@@ -23,3 +23,17 @@
 /coverage
 /dist
 /tmp
+
+# Documentação local (não versionar)
+/CORRECTIONS_SUMMARY.md
+/DEPLOYMENT_STATUS.md
+/EXECUTIVE_SUMMARY.md
+/FINAL_REPORT.md
+/INDEX.md
+/INSTALLATION.md
+/QUICK_REFERENCE.md
+/START_HERE.md
+/TROUBLESHOOTING.md
+/VERIFICATION_CHECKLIST.md
+/setup.bat
+/setup.sh

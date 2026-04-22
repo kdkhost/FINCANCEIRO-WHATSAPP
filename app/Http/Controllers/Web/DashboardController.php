@@ -3,38 +3,69 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\Tenant;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Schema;
+use App\Models\Customer;
+use App\Models\Plan;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function __invoke(): View
+    public function __invoke()
     {
-        $hasBaseTables = Schema::hasTable('tenants')
-            && Schema::hasTable('users')
-            && Schema::hasTable('customers')
-            && Schema::hasTable('invoices');
+        return $this->index();
+    }
 
-        $metrics = [
-            'tenants' => $hasBaseTables ? Tenant::query()->count() : 0,
-            'users' => $hasBaseTables ? User::query()->count() : 0,
-            'customers' => $hasBaseTables ? Customer::query()->count() : 0,
-            'invoices_total' => $hasBaseTables ? (float) Invoice::query()->sum('total') : 0.0,
+    public function index()
+    {
+        $tenant = Auth::user()->tenant;
+
+        // Estatísticas gerais
+        $stats = [
+            'total_customers' => Customer::where('tenant_id', $tenant->id)->count(),
+            'total_invoices' => Invoice::where('tenant_id', $tenant->id)->count(),
+            'pending_invoices' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'pending')
+                ->count(),
+            'overdue_invoices' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'overdue')
+                ->count(),
+            'paid_invoices' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'paid')
+                ->count(),
         ];
 
-        $latestCustomers = $hasBaseTables
-            ? Customer::query()->with('tenant')->latest()->limit(8)->get()
-            : new Collection();
+        // Receita total
+        $revenue = [
+            'total' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'paid')
+                ->sum('total'),
+            'pending' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'pending')
+                ->sum('total'),
+            'overdue' => Invoice::where('tenant_id', $tenant->id)
+                ->where('status', 'overdue')
+                ->sum('total'),
+        ];
 
-        $latestInvoices = $hasBaseTables
-            ? Invoice::query()->with(['tenant', 'customer'])->latest()->limit(8)->get()
-            : new Collection();
+        // Últimas faturas
+        $recentInvoices = Invoice::where('tenant_id', $tenant->id)
+            ->with('customer')
+            ->latest()
+            ->limit(10)
+            ->get();
 
-        return view('admin.dashboard', compact('metrics', 'latestCustomers', 'latestInvoices'));
+        // Clientes recentes
+        $recentCustomers = Customer::where('tenant_id', $tenant->id)
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('admin.dashboard.index', [
+            'stats' => $stats,
+            'revenue' => $revenue,
+            'recentInvoices' => $recentInvoices,
+            'recentCustomers' => $recentCustomers,
+            'tenant' => $tenant,
+        ]);
     }
 }
