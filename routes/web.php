@@ -13,6 +13,10 @@ use App\Http\Controllers\Admin\WebhookLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/sobre', [HomeController::class, 'about'])->name('home.about');
+Route::get('/funcionalidades', [HomeController::class, 'features'])->name('home.features');
+Route::get('/precos', [HomeController::class, 'pricing'])->name('home.pricing');
+Route::get('/contato', [HomeController::class, 'contact'])->name('home.contact');
 Route::redirect('/dashboard', '/admin/dashboard');
 
 Route::prefix('admin')->group(function (): void {

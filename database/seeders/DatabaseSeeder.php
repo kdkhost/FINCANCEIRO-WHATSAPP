@@ -9,7 +9,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            DemoDataSeeder::class,
+            AdminUserSeeder::class,
+            DefaultPlansSeeder::class,
+            DefaultTemplatesSeeder::class,
+            // DemoDataSeeder::class, // Descomente para dados de demonstração
         ]);
     }
 }
