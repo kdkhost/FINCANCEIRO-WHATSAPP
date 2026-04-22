@@ -1,0 +1,10 @@
+{
+  "name": "Financeiro Pro Whats",
+  "short_name": "FinProWhats",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f3eb",
+  "theme_color": "#0f766e",
+  "lang": "pt-BR",
+  "description": "SaaS multi-tenant de gestao financeira com WhatsApp, cobrancas e PWA."
+}

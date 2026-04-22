@@ -1,73 +1,88 @@
 # Financeiro Pro Whats
 
-Base documental e estrutural inicial para o SaaS multi-tenant "Financeiro Pro Whats", projetado para Laravel 12 + PHP 8.4, MariaDB, React SPA, AdminLTE 4 e integração com WhatsApp via Evolution API.
+SaaS multi-tenant para gestao financeira, cobrancas, contratos, automacoes de WhatsApp e operacao administrativa em Laravel 12 + React com AdminLTE 4.
 
-## Status atual
+## Estado atual da base
 
-O diretório original estava vazio e o ambiente desta sessão não possui `PHP` nem `Composer`. Por isso, esta entrega organiza a fundação técnica do projeto, a arquitetura, a modelagem base, o plano de módulos e os artefatos de deploy para cPanel, todos em UTF-8 sem BOM.
+Esta entrega ja nao e apenas documental. O repositório agora contem a estrutura real do projeto com:
 
-## Escopo desta entrega
+- `composer.json` preparado para Laravel 12
+- `package.json` com React, Vite, AdminLTE 4, DataTables e Summernote
+- bootstrap inicial do Laravel
+- rotas web, api e console
+- middleware de identificacao de tenant e restricao por IP
+- modelos base de tenancy, planos, clientes, faturas e gateways
+- servicos iniciais para pro-rata, templates e gateways
+- migrations iniciais
+- frontend base com Vite, React e PWA
+- documentacao tecnica complementar
 
-- Padronização do repositório para texto sem BOM
-- Estrutura documental do SaaS
-- Modelagem inicial de banco de dados
-- Diretrizes multi-tenant e integração com gateways
-- Guia de deploy em hospedagem compartilhada cPanel
-- Exemplo de `.htaccess` para ocultar `public`
-- Roadmap técnico de implementação por fases
-- `CHANGELOG.md` inicial
+## Stack prevista
 
-## Stack-alvo
+- PHP 8.4
+- Laravel 12
+- MariaDB / MySQL
+- React + Vite
+- AdminLTE 4
+- jQuery + Ajax
+- SweetAlert2 + Toastify
+- Summernote
+- FullCalendar
+- Mercado Pago, Efi Pay e Stripe
+- Evolution API para WhatsApp
 
-- Backend: Laravel 12, PHP 8.4, MariaDB/MySQL, Redis opcional
-- Frontend: React SPA, Vite, AdminLTE 4, jQuery, Ajax, SweetAlert2, Toastr, FullCalendar 4, Summernote
-- Comunicação: Evolution API / Evolution GO
-- Pagamentos: Mercado Pago, Efí Pay, Stripe
-- Infra alvo: hospedagem compartilhada cPanel com CloudLinux opcional
-
-## Estrutura criada
+## Estrutura principal
 
 ```text
-.
-|-- .editorconfig
-|-- .gitattributes
-|-- .gitignore
-|-- CHANGELOG.md
-|-- README.md
-|-- database/
-|   `-- schema-base.sql
-|-- docs/
-|   |-- arquitetura.md
-|   |-- deploy-cpanel.md
-|   |-- modelagem-dados.md
-|   |-- modulos.md
-|   `-- roadmap-implementacao.md
-`-- infra/
-    `-- apache/
-        `-- .htaccess.example
+app/
+bootstrap/
+config/
+database/
+docs/
+public/
+resources/
+routes/
+tests/
+artisan
+composer.json
+package.json
+vite.config.js
 ```
 
-## Próximos passos recomendados
-
-1. Instalar `PHP 8.4+`, `Composer` e extensões necessárias.
-2. Criar a base Laravel 12 no mesmo diretório.
-3. Integrar React SPA com Vite.
-4. Aplicar a arquitetura modular descrita em `docs/modulos.md`.
-5. Implementar o multi-tenant com isolamento por `tenant_id` e camadas separadas de SaaS e tenant.
-
-## Comandos sugeridos quando o ambiente estiver pronto
+## Fluxo de instalacao quando voce for hospedar
 
 ```bash
-composer create-project laravel/laravel .
-composer require filament/filament laravel/sanctum spatie/laravel-permission
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
 npm install
+npm run build
 ```
 
-## Deploy e cPanel
+## O que ja esta modelado
 
-As diretrizes estão em [docs/deploy-cpanel.md](/g:/Tudo/MEU-SISTEMA/FINCANCEIRO%20WHATSAPP/docs/deploy-cpanel.md).
+- tenancy por `slug` e dominio principal
+- base de usuarios, planos, clientes, faturas e gateways
+- endpoint de health check
+- endpoint base para listagem de clientes por tenant
+- endpoint base para webhooks dinamicos por gateway
+- agendamento interno de cron
+- estrutura inicial para filas de WhatsApp e lembretes
+- PWA com `manifest.webmanifest` e service worker inicial
 
-## Observações
+## O que ainda depende da instalacao de dependencias e continuidade de implementacao
 
-- Não foi possível gerar um sistema Laravel executável nesta sessão por ausência de `PHP` e `Composer`.
-- O material entregue serve como base concreta para continuidade da implementação sem retrabalho estrutural.
+- autenticação completa com telas finais
+- painel administrativo completo com AdminLTE 4 e CRUDs finais
+- integracoes reais com Mercado Pago, Efi, Stripe e Evolution
+- CRUDs completos via Ajax
+- dashboards com graficos
+- CRM/Kanban, contratos, afiliados, SEO e analytics
+
+## Documentacao complementar
+
+- [Arquitetura](/g:/Tudo/MEU-SISTEMA/FINCANCEIRO%20WHATSAPP/docs/arquitetura.md)
+- [Modulos](/g:/Tudo/MEU-SISTEMA/FINCANCEIRO%20WHATSAPP/docs/modulos.md)
+- [Deploy cPanel](/g:/Tudo/MEU-SISTEMA/FINCANCEIRO%20WHATSAPP/docs/deploy-cpanel.md)
+- [Modelagem de dados](/g:/Tudo/MEU-SISTEMA/FINCANCEIRO%20WHATSAPP/docs/modelagem-dados.md)
