@@ -1,0 +1,117 @@
+═══════════════════════════════════════════════════════════════════════════
+  COMANDOS PARA CORRIGIR OS ERROS NO SERVIDOR
+═══════════════════════════════════════════════════════════════════════════
+
+COPIE E COLE NO SEU SERVIDOR SSH (financeirowhats@patriota.kdkhost.com.br)
+
+───────────────────────────────────────────────────────────────────────────
+OPÇÃO 1: COMANDO ÚNICO (RECOMENDADO) ⭐
+───────────────────────────────────────────────────────────────────────────
+
+Copie esta linha inteira e cole no terminal SSH:
+
+composer clear-cache && rm -rf vendor && composer install --no-dev --no-scripts --optimize-autoloader --ignore-platform-req=ext-curl --ignore-platform-req=ext-pcntl && composer dump-autoload --optimize && chmod -R 775 storage bootstrap/cache && [ ! -f .env ] && cp .env.example .env && php artisan key:generate --force && php artisan cache:clear && php artisan config:clear && echo 'Correções aplicadas!'
+
+───────────────────────────────────────────────────────────────────────────
+OPÇÃO 2: PASSO A PASSO
+───────────────────────────────────────────────────────────────────────────
+
+Execute um comando por vez:
+
+composer clear-cache
+
+rm -rf vendor
+
+composer install --no-dev --no-scripts --optimize-autoloader --ignore-platform-req=ext-curl --ignore-platform-req=ext-pcntl
+
+composer dump-autoload --optimize
+
+chmod -R 775 storage bootstrap/cache
+
+cp .env.example .env
+
+php artisan key:generate --force
+
+php artisan cache:clear
+
+php artisan config:clear
+
+───────────────────────────────────────────────────────────────────────────
+ENVIAR ASSETS DO SEU PC PARA O SERVIDOR
+───────────────────────────────────────────────────────────────────────────
+
+NO SEU PC WINDOWS (PowerShell):
+
+npm run build
+
+tar -czf build.tar.gz public/build/
+
+scp build.tar.gz financeirowhats@patriota.kdkhost.com.br:/home/financeirowhats/public_html/
+
+
+NO SERVIDOR SSH:
+
+cd /home/financeirowhats/public_html
+
+tar -xzf build.tar.gz
+
+rm build.tar.gz
+
+───────────────────────────────────────────────────────────────────────────
+CONFIGURAR BANCO DE DADOS
+───────────────────────────────────────────────────────────────────────────
+
+nano .env
+
+(Configure DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD)
+(Salvar: Ctrl+X, depois Y, depois Enter)
+
+php artisan migrate --force
+
+php artisan db:seed --force
+
+───────────────────────────────────────────────────────────────────────────
+OTIMIZAR PARA PRODUÇÃO
+───────────────────────────────────────────────────────────────────────────
+
+php artisan config:cache
+
+php artisan route:cache
+
+php artisan view:cache
+
+───────────────────────────────────────────────────────────────────────────
+VERIFICAR SE ESTÁ FUNCIONANDO
+───────────────────────────────────────────────────────────────────────────
+
+php artisan tinker
+
+(Digite dentro do tinker:)
+DB::connection()->getPdo()
+
+(Se aparecer "PDO object", está funcionando!)
+(Digite "exit" para sair)
+
+───────────────────────────────────────────────────────────────────────────
+CREDENCIAIS PADRÃO
+───────────────────────────────────────────────────────────────────────────
+
+Email: admin@financeiroprowhats.com
+Senha: admin123
+
+⚠️ IMPORTANTE: Altere a senha após o primeiro login!
+
+───────────────────────────────────────────────────────────────────────────
+PRECISA DE AJUDA?
+───────────────────────────────────────────────────────────────────────────
+
+Ver logs:
+tail -f storage/logs/laravel.log
+
+Ver erros do Composer:
+composer diagnose
+
+Verificar permissões:
+ls -la storage/
+
+═══════════════════════════════════════════════════════════════════════════
