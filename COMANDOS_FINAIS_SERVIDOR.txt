@@ -1,0 +1,117 @@
+═══════════════════════════════════════════════════════════════════════════
+  COMANDOS FINAIS PARA EXECUTAR NO SERVIDOR
+═══════════════════════════════════════════════════════════════════════════
+
+COPIE E COLE ESTES COMANDOS UM POR VEZ:
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 1: CRIAR PASTAS DE CACHE E DAR PERMISSÕES
+───────────────────────────────────────────────────────────────────────────
+
+mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
+
+chmod -R 775 storage bootstrap/cache
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 2: VERIFICAR SE .ENV EXISTE
+───────────────────────────────────────────────────────────────────────────
+
+ls -la .env
+
+Se não existir, execute:
+
+cp .env.example .env
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 3: EDITAR O .ENV COM SUAS CONFIGURAÇÕES
+───────────────────────────────────────────────────────────────────────────
+
+nano .env
+
+Configure:
+- APP_ENV=production
+- APP_DEBUG=false
+- APP_URL=http://seu-dominio.com
+- DB_HOST=localhost
+- DB_DATABASE=nome_do_banco
+- DB_USERNAME=usuario
+- DB_PASSWORD=senha
+
+Salvar: Ctrl+X, depois Y, depois Enter
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 4: GERAR APP_KEY MANUALMENTE
+───────────────────────────────────────────────────────────────────────────
+
+Como o artisan não está funcionando, vamos gerar a chave manualmente:
+
+php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"
+
+Copie o resultado (algo como: base64:abc123...)
+
+Depois edite o .env:
+
+nano .env
+
+Procure por APP_KEY= e cole a chave gerada
+Exemplo: APP_KEY=base64:abc123...
+
+Salvar: Ctrl+X, depois Y, depois Enter
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 5: CRIAR ARQUIVO config/app.php SIMPLIFICADO (TEMPORÁRIO)
+───────────────────────────────────────────────────────────────────────────
+
+Vamos criar um script PHP para executar as migrations sem o artisan:
+
+cat > migrate.php << 'EOF'
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+// Configurar ambiente
+$_ENV['APP_ENV'] = 'production';
+
+// Executar migrations
+echo "Executando migrations...\n";
+passthru('php vendor/bin/phpunit --migrate 2>&1 || php -r "
+    require \"vendor/autoload.php\";
+    \$app = require \"bootstrap/app.php\";
+    \$kernel = \$app->make(Illuminate\Contracts\Console\Kernel::class);
+    \$kernel->call(\"migrate\", [\"--force\" => true]);
+"');
+
+echo "Migrations concluídas!\n";
+EOF
+
+php migrate.php
+
+───────────────────────────────────────────────────────────────────────────
+ALTERNATIVA MAIS SIMPLES: EXECUTAR SQL DIRETO
+───────────────────────────────────────────────────────────────────────────
+
+Se o método acima não funcionar, execute o SQL direto no banco:
+
+mysql -u seu_usuario -p seu_banco < database/schema-base.sql
+
+Ou acesse o phpMyAdmin no cPanel e importe o arquivo:
+database/schema-base.sql
+
+───────────────────────────────────────────────────────────────────────────
+PASSO 6: TESTAR O SITE
+───────────────────────────────────────────────────────────────────────────
+
+Acesse: http://seu-dominio.com
+
+Se aparecer erro, veja os logs:
+
+tail -f storage/logs/laravel.log
+
+═══════════════════════════════════════════════════════════════════════════
+
+IMPORTANTE: O erro do Collision está impedindo o artisan de funcionar.
+Vamos usar métodos alternativos para configurar o sistema.
+
+═══════════════════════════════════════════════════════════════════════════

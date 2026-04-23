@@ -1,0 +1,79 @@
+═══════════════════════════════════════════════════════════════════════════
+  CONFIGURAR DOMÍNIO NO CPANEL PARA LARAVEL
+═══════════════════════════════════════════════════════════════════════════
+
+OPÇÃO 1: MUDAR DOCUMENT ROOT (RECOMENDADO) ⭐
+───────────────────────────────────────────────────────────────────────────
+
+1. Acesse o cPanel
+2. Vá em "Domínios" ou "Domains"
+3. Clique no domínio que você quer configurar
+4. Procure por "Document Root" ou "Raiz do Documento"
+5. Mude de:
+   /home/financeirowhats/public_html
+   
+   Para:
+   /home/financeirowhats/public_html/public
+   
+6. Salve as alterações
+7. Aguarde alguns minutos para propagar
+
+───────────────────────────────────────────────────────────────────────────
+OPÇÃO 2: USAR OS ARQUIVOS DE REDIRECIONAMENTO (JÁ FEITO) ✅
+───────────────────────────────────────────────────────────────────────────
+
+Já criei os arquivos necessários:
+- .htaccess (na raiz) - Redireciona para /public/
+- index.php (na raiz) - Fallback de redirecionamento
+
+Execute no servidor:
+
+git pull origin master
+
+Isso vai baixar os arquivos de redirecionamento.
+
+───────────────────────────────────────────────────────────────────────────
+OPÇÃO 3: CRIAR SYMLINK (ALTERNATIVA)
+───────────────────────────────────────────────────────────────────────────
+
+Se as opções acima não funcionarem, execute no servidor:
+
+# Fazer backup do public_html atual
+mv public_html public_html_backup
+
+# Criar symlink apontando para a pasta public do Laravel
+ln -s /home/financeirowhats/public_html_backup/public public_html
+
+───────────────────────────────────────────────────────────────────────────
+VERIFICAR SE ESTÁ FUNCIONANDO
+───────────────────────────────────────────────────────────────────────────
+
+Acesse seu domínio no navegador:
+http://seu-dominio.com
+
+Deve aparecer a página inicial do sistema! ✅
+
+───────────────────────────────────────────────────────────────────────────
+TROUBLESHOOTING
+───────────────────────────────────────────────────────────────────────────
+
+Se aparecer erro 500:
+1. Verifique permissões: chmod -R 775 storage bootstrap/cache
+2. Verifique .env: ls -la .env
+3. Verifique logs: tail -f storage/logs/laravel.log
+
+Se aparecer erro 404:
+1. Verifique se o .htaccess existe: ls -la public/.htaccess
+2. Verifique se mod_rewrite está ativo no Apache
+
+Se aparecer página em branco:
+1. Ative debug no .env: APP_DEBUG=true
+2. Limpe cache: php artisan config:clear
+3. Veja os logs: tail -f storage/logs/laravel.log
+
+═══════════════════════════════════════════════════════════════════════════
+
+RECOMENDAÇÃO: Use a OPÇÃO 1 (mudar Document Root no cPanel)
+É a forma mais limpa e profissional!
+
+═══════════════════════════════════════════════════════════════════════════
