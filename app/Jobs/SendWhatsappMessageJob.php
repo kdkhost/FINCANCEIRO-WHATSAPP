@@ -35,7 +35,7 @@ class SendWhatsappMessageJob implements ShouldQueue
         $instanceName = config('services.evolution.instance_name');
 
         if (!$evolutionUrl || !$evolutionKey || !$instanceName) {
-            Log::warning("Evolution API not configured for tenant {$this->tenantId}");
+            Log::warning("Evolution GO not configured for tenant {$this->tenantId}");
             return;
         }
 

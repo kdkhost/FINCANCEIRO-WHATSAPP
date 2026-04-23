@@ -13,7 +13,7 @@ Sistema completo de gestão financeira, cobrança e automação para WhatsApp. P
 
 ### Automação
 - ✅ Lembretes automáticos de cobrança via email e WhatsApp
-- ✅ Integração com Evolution API para WhatsApp
+- ✅ Integração com Evolution GO para WhatsApp
 - ✅ Templates personalizáveis de mensagens
 - ✅ Sistema de cron jobs automatizado
 - ✅ Fila de processamento assíncrono
@@ -93,13 +93,15 @@ EFI_CLIENT_SECRET=...
 EFI_WEBHOOK_SECRET=...
 ```
 
-### WhatsApp Evolution API
+### WhatsApp
 
 ```env
 EVOLUTION_API_URL=http://localhost:8080
 EVOLUTION_API_KEY=sua_api_key
 EVOLUTION_INSTANCE_NAME=sua_instancia
 ```
+
+**Nota:** Este sistema usa **Evolution GO** (versão em Golang da Evolution API).
 
 ## 🔄 Cron Jobs
 
@@ -168,7 +170,7 @@ php artisan cron:message-dispatch
 - Stripe SDK
 - MercadoPago SDK
 - Efi API
-- Evolution API (WhatsApp)
+- Evolution GO (WhatsApp)
 
 ## 🔐 Segurança
 
