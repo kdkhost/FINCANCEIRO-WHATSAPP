@@ -1,0 +1,53 @@
+{
+  "__commonjsHelpers-CqkleIqs.js": {
+    "file": "assets/_commonjsHelpers-CqkleIqs.js",
+    "name": "_commonjsHelpers"
+  },
+  "node_modules/summernote/dist/font/summernote.eot": {
+    "file": "assets/summernote-jt9apK1s.eot",
+    "src": "node_modules/summernote/dist/font/summernote.eot"
+  },
+  "node_modules/summernote/dist/font/summernote.ttf": {
+    "file": "assets/summernote-BDPkqvsB.ttf",
+    "src": "node_modules/summernote/dist/font/summernote.ttf"
+  },
+  "node_modules/summernote/dist/font/summernote.woff": {
+    "file": "assets/summernote-MGhHcnpK.woff",
+    "src": "node_modules/summernote/dist/font/summernote.woff"
+  },
+  "node_modules/summernote/dist/font/summernote.woff2": {
+    "file": "assets/summernote-tk6LuLER.woff2",
+    "src": "node_modules/summernote/dist/font/summernote.woff2"
+  },
+  "resources/css/admin.css": {
+    "file": "assets/admin-BdINRzaT.css",
+    "src": "resources/css/admin.css",
+    "isEntry": true
+  },
+  "resources/css/frontend.css": {
+    "file": "assets/frontend-66piOGgo.css",
+    "src": "resources/css/frontend.css",
+    "isEntry": true
+  },
+  "resources/js/admin.js": {
+    "file": "assets/admin-BsywtAYj.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers-CqkleIqs.js"
+    ]
+  },
+  "resources/js/frontend/app.jsx": {
+    "file": "assets/app-GTo7o5bx.js",
+    "name": "app",
+    "src": "resources/js/frontend/app.jsx",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers-CqkleIqs.js"
+    ],
+    "css": [
+      "assets/frontend-66piOGgo.css"
+    ]
+  }
+}
