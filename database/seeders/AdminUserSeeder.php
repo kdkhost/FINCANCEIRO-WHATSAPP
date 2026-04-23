@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
             [
                 'name' => 'Administração',
                 'primary_domain' => 'admin.localhost',
-                'is_active' => true,
+                'status' => 'active',
             ]
         );
 
