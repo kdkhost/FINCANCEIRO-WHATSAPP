@@ -1,0 +1,74 @@
+═══════════════════════════════════════════════════════════════════════════
+  CORRIGIR ERRO: Route [dashboard] not defined
+═══════════════════════════════════════════════════════════════════════════
+
+ERRO:
+Route [dashboard] not defined.
+
+CAUSA:
+O HomeController estava tentando redirecionar para route('dashboard'), 
+mas a rota correta é route('admin.dashboard').
+
+───────────────────────────────────────────────────────────────────────────
+SOLUÇÃO - EXECUTE NO SERVIDOR:
+───────────────────────────────────────────────────────────────────────────
+
+cd /home/financeirowhats/public_html
+git pull origin master
+php artisan config:clear
+php artisan route:clear
+php artisan cache:clear
+
+───────────────────────────────────────────────────────────────────────────
+VERIFICAR SE FUNCIONOU:
+───────────────────────────────────────────────────────────────────────────
+
+Acesse: https://financeirowhats.kdkhost.com.br
+
+Deve aparecer a página inicial do sistema! ✅
+
+───────────────────────────────────────────────────────────────────────────
+O QUE FOI CORRIGIDO:
+───────────────────────────────────────────────────────────────────────────
+
+Arquivo: app/Http/Controllers/Web/HomeController.php
+Linha 19: Alterado de route('dashboard') para route('admin.dashboard')
+
+───────────────────────────────────────────────────────────────────────────
+ROTAS DISPONÍVEIS NO SISTEMA:
+───────────────────────────────────────────────────────────────────────────
+
+PÚBLICO:
+- / (home)
+- /sobre
+- /funcionalidades
+- /precos
+- /contato
+
+ADMIN:
+- /admin/login
+- /admin/dashboard
+- /admin/tenants
+- /admin/clientes
+- /admin/cobrancas
+- /admin/gateways
+- /admin/templates
+- /admin/webhooks/logs
+- /admin/crons
+
+API:
+- /api/v1/health
+- /api/v1/tenant/{tenant}/customers
+- /api/v1/webhooks/{tenant}/{gateway}
+
+───────────────────────────────────────────────────────────────────────────
+CREDENCIAIS DE LOGIN:
+───────────────────────────────────────────────────────────────────────────
+
+URL: https://financeirowhats.kdkhost.com.br/admin/login
+Email: admin@financeiroprowhats.com
+Senha: admin123
+
+⚠️ ALTERE A SENHA APÓS O PRIMEIRO LOGIN!
+
+═══════════════════════════════════════════════════════════════════════════
