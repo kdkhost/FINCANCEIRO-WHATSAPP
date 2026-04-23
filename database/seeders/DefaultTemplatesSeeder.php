@@ -24,8 +24,8 @@ class DefaultTemplatesSeeder extends Seeder
         // Email Templates
         $emailTemplates = [
             [
+                'type' => 'billing_reminder',
                 'name' => 'Lembrete de Cobrança',
-                'slug' => 'billing-reminder',
                 'subject' => 'Lembrete: Fatura {{invoice_code}} vence em {{days_until_due}} dias',
                 'body' => '<p>Olá {{customer_name}},</p>
 <p>Este é um lembrete de que sua fatura <strong>{{invoice_code}}</strong> no valor de <strong>R$ {{invoice_total}}</strong> vence em {{days_until_due}} dias.</p>
@@ -33,11 +33,12 @@ class DefaultTemplatesSeeder extends Seeder
 <p>Para evitar juros e multas, realize o pagamento até a data de vencimento.</p>
 <p><a href="{{payment_url}}" style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Pagar Agora</a></p>
 <p>Atenciosamente,<br>{{tenant_name}}</p>',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
             [
+                'type' => 'overdue_invoice',
                 'name' => 'Cobrança Vencida',
-                'slug' => 'overdue-invoice',
                 'subject' => 'URGENTE: Fatura {{invoice_code}} está vencida',
                 'body' => '<p>Olá {{customer_name}},</p>
 <p>Sua fatura <strong>{{invoice_code}}</strong> no valor de <strong>R$ {{invoice_total}}</strong> está vencida desde {{invoice_due_date}}.</p>
@@ -45,11 +46,12 @@ class DefaultTemplatesSeeder extends Seeder
 <p><a href="{{payment_url}}" style="background-color: #EF4444; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Pagar Agora</a></p>
 <p>Em caso de dúvidas, entre em contato conosco.</p>
 <p>Atenciosamente,<br>{{tenant_name}}</p>',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
             [
+                'type' => 'payment_confirmation',
                 'name' => 'Confirmação de Pagamento',
-                'slug' => 'payment-confirmation',
                 'subject' => 'Pagamento Confirmado - Fatura {{invoice_code}}',
                 'body' => '<p>Olá {{customer_name}},</p>
 <p>Confirmamos o recebimento do pagamento da fatura <strong>{{invoice_code}}</strong> no valor de <strong>R$ {{invoice_total}}</strong>.</p>
@@ -57,6 +59,7 @@ class DefaultTemplatesSeeder extends Seeder
 <p><strong>Método de Pagamento:</strong> {{payment_method}}</p>
 <p>Obrigado pela sua preferência!</p>
 <p>Atenciosamente,<br>{{tenant_name}}</p>',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
         ];
@@ -64,7 +67,7 @@ class DefaultTemplatesSeeder extends Seeder
         foreach ($emailTemplates as $template) {
             EmailTemplate::firstOrCreate(
                 [
-                    'slug' => $template['slug'],
+                    'type' => $template['type'],
                     'tenant_id' => $tenant->id,
                 ],
                 $template
@@ -74,9 +77,9 @@ class DefaultTemplatesSeeder extends Seeder
         // WhatsApp Templates
         $whatsappTemplates = [
             [
+                'type' => 'billing_reminder',
                 'name' => 'Lembrete de Cobrança',
-                'slug' => 'billing-reminder-whatsapp',
-                'message' => 'Olá *{{customer_name}}*! 👋
+                'body' => 'Olá *{{customer_name}}*! 👋
 
 Este é um lembrete de que sua fatura *{{invoice_code}}* no valor de *R$ {{invoice_total}}* vence em {{days_until_due}} dias.
 
@@ -85,12 +88,13 @@ Este é um lembrete de que sua fatura *{{invoice_code}}* no valor de *R$ {{invoi
 Para pagar, acesse: {{payment_url}}
 
 _{{tenant_name}}_',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
             [
+                'type' => 'overdue_invoice',
                 'name' => 'Cobrança Vencida',
-                'slug' => 'overdue-invoice-whatsapp',
-                'message' => '⚠️ *URGENTE* ⚠️
+                'body' => '⚠️ *URGENTE* ⚠️
 
 Olá *{{customer_name}}*,
 
@@ -99,12 +103,13 @@ Sua fatura *{{invoice_code}}* no valor de *R$ {{invoice_total}}* está vencida d
 Para regularizar, acesse: {{payment_url}}
 
 _{{tenant_name}}_',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
             [
+                'type' => 'payment_confirmation',
                 'name' => 'Confirmação de Pagamento',
-                'slug' => 'payment-confirmation-whatsapp',
-                'message' => '✅ *Pagamento Confirmado!*
+                'body' => '✅ *Pagamento Confirmado!*
 
 Olá *{{customer_name}}*,
 
@@ -113,6 +118,7 @@ Confirmamos o recebimento do pagamento da fatura *{{invoice_code}}* no valor de 
 Obrigado! 🎉
 
 _{{tenant_name}}_',
+                'is_active' => true,
                 'tenant_id' => $tenant->id,
             ],
         ];
@@ -120,7 +126,7 @@ _{{tenant_name}}_',
         foreach ($whatsappTemplates as $template) {
             WhatsappTemplate::firstOrCreate(
                 [
-                    'slug' => $template['slug'],
+                    'type' => $template['type'],
                     'tenant_id' => $tenant->id,
                 ],
                 $template
