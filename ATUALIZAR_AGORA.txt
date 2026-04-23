@@ -1,0 +1,26 @@
+═══════════════════════════════════════════════════════════════════════════
+  ATUALIZAR SISTEMA - COPIE E COLE NO SERVIDOR
+═══════════════════════════════════════════════════════════════════════════
+
+cd /home/financeirowhats/public_html && git pull origin master && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan cache:clear && echo "✅ Sistema atualizado! Recarregue a página no navegador."
+
+───────────────────────────────────────────────────────────────────────────
+CORREÇÕES APLICADAS:
+───────────────────────────────────────────────────────────────────────────
+
+✅ Rota do dashboard corrigida (route('dashboard') → route('admin.dashboard'))
+✅ Restrição de IP removida (ADMIN_ALLOWED_IPS agora vazio)
+✅ View do dashboard corrigida (admin.dashboard.index → admin.dashboard)
+✅ Variáveis do controller ajustadas para a view existente
+
+───────────────────────────────────────────────────────────────────────────
+DEPOIS DE EXECUTAR:
+───────────────────────────────────────────────────────────────────────────
+
+1. Recarregue a página no navegador (Ctrl+F5 ou Cmd+Shift+R)
+2. Faça login com:
+   Email: admin@financeiroprowhats.com
+   Senha: admin123
+3. O dashboard deve carregar corretamente! 🎉
+
+═══════════════════════════════════════════════════════════════════════════
