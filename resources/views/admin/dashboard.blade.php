@@ -138,7 +138,7 @@
                             <h3 class="card-title fw-bold">Template demo de WhatsApp</h3>
                         </div>
                         <div class="card-body">
-                            <textarea class="form-control" data-summernote>Ola {{nome}}, sua fatura de {{valor}} vence em {{data_vencimento}}. Pague agora por PIX, boleto ou cartao.</textarea>
+                            <textarea class="form-control" data-summernote>Ola @{{nome}}, sua fatura de @{{valor}} vence em @{{data_vencimento}}. Pague agora por PIX, boleto ou cartao.</textarea>
                         </div>
                     </div>
                 </div>
