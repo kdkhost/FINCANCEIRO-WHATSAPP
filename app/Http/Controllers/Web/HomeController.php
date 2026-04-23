@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         // Se o usuário está autenticado, redirecionar para o dashboard
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         // Página inicial pública
