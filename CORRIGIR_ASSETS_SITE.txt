@@ -1,0 +1,101 @@
+═══════════════════════════════════════════════════════════════════════════
+  CORRIGIR ASSETS DO SITE (CSS/JS NÃO CARREGANDO)
+═══════════════════════════════════════════════════════════════════════════
+
+PROBLEMA:
+O site está carregando mas sem CSS/JS (layout quebrado)
+
+CAUSA:
+O Laravel não está encontrando os assets compilados do Vite
+
+───────────────────────────────────────────────────────────────────────────
+SOLUÇÃO - EXECUTE NO SERVIDOR:
+───────────────────────────────────────────────────────────────────────────
+
+cd /home/financeirowhats/public_html
+
+# 1. Verificar se APP_ENV está correto
+nano .env
+
+# Procure por APP_ENV e mude para production:
+APP_ENV=production
+APP_DEBUG=false
+
+# Salve: Ctrl+X, Y, Enter
+
+# 2. Limpar todos os caches
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+# 3. Recriar cache de configuração
+php artisan config:cache
+
+# 4. Verificar permissões dos assets
+chmod -R 755 public/build
+
+# 5. Verificar se manifest existe
+ls -la public/build/manifest.json
+
+───────────────────────────────────────────────────────────────────────────
+SE AINDA NÃO FUNCIONAR:
+───────────────────────────────────────────────────────────────────────────
+
+# Verificar se o .htaccess está correto
+cat public/.htaccess
+
+# Se não existir, criar:
+nano public/.htaccess
+
+# Cole este conteúdo:
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Salve: Ctrl+X, Y, Enter
+
+───────────────────────────────────────────────────────────────────────────
+VERIFICAR SE FUNCIONOU:
+───────────────────────────────────────────────────────────────────────────
+
+1. Acesse: https://financeirowhats.kdkhost.com.br
+2. Pressione Ctrl+Shift+R (ou Cmd+Shift+R no Mac) para recarregar sem cache
+3. O site deve aparecer com layout bonito e colorido! ✅
+
+───────────────────────────────────────────────────────────────────────────
+TESTAR ASSETS DIRETAMENTE:
+───────────────────────────────────────────────────────────────────────────
+
+Acesse no navegador:
+https://financeirowhats.kdkhost.com.br/build/manifest.json
+
+Se aparecer o JSON, os assets estão acessíveis! ✅
+
+───────────────────────────────────────────────────────────────────────────
+ALTERNATIVA: USAR CDN TAILWIND (TEMPORÁRIO)
+───────────────────────────────────────────────────────────────────────────
+
+Se nada funcionar, podemos adicionar Tailwind via CDN temporariamente
+enquanto investigamos o problema dos assets.
+
+═══════════════════════════════════════════════════════════════════════════
