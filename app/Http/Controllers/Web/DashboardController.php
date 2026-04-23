@@ -19,53 +19,34 @@ class DashboardController extends Controller
     {
         $tenant = Auth::user()->tenant;
 
-        // Estatísticas gerais
-        $stats = [
-            'total_customers' => Customer::where('tenant_id', $tenant->id)->count(),
-            'total_invoices' => Invoice::where('tenant_id', $tenant->id)->count(),
-            'pending_invoices' => Invoice::where('tenant_id', $tenant->id)
-                ->where('status', 'pending')
-                ->count(),
-            'overdue_invoices' => Invoice::where('tenant_id', $tenant->id)
-                ->where('status', 'overdue')
-                ->count(),
-            'paid_invoices' => Invoice::where('tenant_id', $tenant->id)
+        // Métricas para o dashboard
+        $metrics = [
+            'tenants' => 1, // Tenant atual
+            'users' => $tenant->users()->count(),
+            'customers' => Customer::where('tenant_id', $tenant->id)->count(),
+            'invoices_total' => Invoice::where('tenant_id', $tenant->id)
                 ->where('status', 'paid')
-                ->count(),
-        ];
-
-        // Receita total
-        $revenue = [
-            'total' => Invoice::where('tenant_id', $tenant->id)
-                ->where('status', 'paid')
-                ->sum('total'),
-            'pending' => Invoice::where('tenant_id', $tenant->id)
-                ->where('status', 'pending')
-                ->sum('total'),
-            'overdue' => Invoice::where('tenant_id', $tenant->id)
-                ->where('status', 'overdue')
                 ->sum('total'),
         ];
 
         // Últimas faturas
-        $recentInvoices = Invoice::where('tenant_id', $tenant->id)
-            ->with('customer')
+        $latestInvoices = Invoice::where('tenant_id', $tenant->id)
+            ->with(['customer', 'tenant'])
             ->latest()
             ->limit(10)
             ->get();
 
         // Clientes recentes
-        $recentCustomers = Customer::where('tenant_id', $tenant->id)
+        $latestCustomers = Customer::where('tenant_id', $tenant->id)
+            ->with('tenant')
             ->latest()
-            ->limit(5)
+            ->limit(10)
             ->get();
 
-        return view('admin.dashboard.index', [
-            'stats' => $stats,
-            'revenue' => $revenue,
-            'recentInvoices' => $recentInvoices,
-            'recentCustomers' => $recentCustomers,
-            'tenant' => $tenant,
+        return view('admin.dashboard', [
+            'metrics' => $metrics,
+            'latestInvoices' => $latestInvoices,
+            'latestCustomers' => $latestCustomers,
         ]);
     }
 }
