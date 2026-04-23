@@ -1,0 +1,32 @@
+═══════════════════════════════════════════════════════════════════════════
+  COMANDO RÁPIDO PARA LIBERAR ACESSO (COPIE E COLE)
+═══════════════════════════════════════════════════════════════════════════
+
+cd /home/financeirowhats/public_html && git pull origin master && sed -i 's/^ADMIN_ALLOWED_IPS=.*/ADMIN_ALLOWED_IPS=/' .env && php artisan config:clear && php artisan cache:clear && echo "✅ IP liberado! Acesse o sistema agora."
+
+───────────────────────────────────────────────────────────────────────────
+OU PASSO A PASSO:
+───────────────────────────────────────────────────────────────────────────
+
+cd /home/financeirowhats/public_html
+
+git pull origin master
+
+nano .env
+(Procure ADMIN_ALLOWED_IPS e deixe vazio: ADMIN_ALLOWED_IPS=)
+(Salve: Ctrl+X, Y, Enter)
+
+php artisan config:clear
+
+php artisan cache:clear
+
+───────────────────────────────────────────────────────────────────────────
+DEPOIS ACESSE:
+───────────────────────────────────────────────────────────────────────────
+
+https://financeirowhats.kdkhost.com.br/admin/login
+
+Email: admin@financeiroprowhats.com
+Senha: admin123
+
+═══════════════════════════════════════════════════════════════════════════
