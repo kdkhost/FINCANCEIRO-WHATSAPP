@@ -19,7 +19,7 @@
                 data-form-selector="#email-template-form"
                 data-url="{{ route('admin.templates.email.update', $template) }}"
                 data-method="PUT"
-                data-record='@json(['tenant_id' => $template->tenant_id, 'type' => $template->type, 'name' => $template->name, 'subject' => $template->subject, 'body' => $template->body, 'is_active' => $template->is_active])'
+                data-record="{{ json_encode(['tenant_id' => $template->tenant_id, 'type' => $template->type, 'name' => $template->name, 'subject' => $template->subject, 'body' => $template->body, 'is_active' => $template->is_active]) }}"
             >
                 Editar
             </button>
