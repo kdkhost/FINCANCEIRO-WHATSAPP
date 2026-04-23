@@ -31,7 +31,7 @@ class AdminUserSeeder extends Seeder
                 'name' => 'Administrador',
                 'tenant_id' => $tenant->id,
                 'password' => Hash::make('admin123'),
-                'is_admin' => true,
+                'is_saas_admin' => true,
             ]
         );
 
