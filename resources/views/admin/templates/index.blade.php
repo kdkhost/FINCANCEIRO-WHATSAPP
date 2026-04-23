@@ -90,7 +90,7 @@
                                         <div class="template-preview-label">Preview do WhatsApp</div>
                                         <div class="whatsapp-preview">
                                             <div class="whatsapp-preview__bubble" data-template-preview-target="body">
-                                                Ola {{nome}}, sua fatura de {{valor}} vence em {{data_vencimento}}.
+                                                Ola @{{nome}}, sua fatura de @{{valor}} vence em @{{data_vencimento}}.
                                             </div>
                                         </div>
                                     </div>
@@ -197,10 +197,10 @@
                                         <div class="template-preview-label">Preview do e-mail</div>
                                         <div class="email-preview">
                                             <div class="email-preview__subject" data-template-preview-target="subject">
-                                                Sua fatura vence em {{data_vencimento}}
+                                                Sua fatura vence em @{{data_vencimento}}
                                             </div>
                                             <div class="email-preview__body" data-template-preview-target="body">
-                                                <p>Ola {{nome}}, sua fatura de {{valor}} esta pronta.</p>
+                                                <p>Ola @{{nome}}, sua fatura de @{{valor}} esta pronta.</p>
                                             </div>
                                         </div>
                                     </div>
